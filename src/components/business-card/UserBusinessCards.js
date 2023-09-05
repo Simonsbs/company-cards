@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { deleteItem, getItems, postItem, updateItem } from "../../services/api";
+import { BusinessCardsContext } from "../../contexts/BusinessCardsContext";
+import { deleteItem, postItem, updateItem } from "../../services/api";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import BusinessCardForm from "./BusinessCardForm";
 import "./UserBusinessCards.css";
@@ -8,24 +9,13 @@ import BusinessCard from "./BusinessCard";
 
 const UserBusinessCards = () => {
   const { token } = useContext(AuthContext);
+  const { cards, addCard, updateCard, deleteCard } =
+    useContext(BusinessCardsContext);
   const itemCategory = "BusinessCards";
-  const [cards, setCards] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
   const [editCard, setEditCard] = useState(null);
-
-  useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const response = await getItems(token, itemCategory);
-        setCards(response);
-      } catch (error) {
-        console.error("Error fetching cards:", error);
-      }
-    };
-    fetchCards();
-  }, [token]);
 
   const openAddModal = () => {
     setEditCard(null);
@@ -49,8 +39,8 @@ const UserBusinessCards = () => {
   const confirmDelete = async () => {
     if (cardToDelete) {
       try {
-        await deleteItem(token, itemCategory, cardToDelete);
-        setCards(cards.filter((card) => card.ItemID !== cardToDelete));
+        await deleteItem(token, itemCategory, cardToDelete.ItemID);
+        deleteCard(cardToDelete.ItemID);
         setShowDeleteModal(false);
         setCardToDelete(null);
       } catch (error) {
@@ -73,18 +63,14 @@ const UserBusinessCards = () => {
           editCard.ItemID,
           updatedData
         );
-        setCards(
-          cards.map((card) =>
-            card.ItemID === response.ItemID ? response : card
-          )
-        );
+        updateCard(response);
       } else {
         // Add new card to the API and to the state
         const response = await postItem(token, itemCategory, {
           Scope: "Public",
           Data: cardData,
         });
-        setCards([...cards, response]);
+        addCard(response);
       }
       setShowAddModal(false);
     } catch (error) {
@@ -115,7 +101,7 @@ const UserBusinessCards = () => {
         Add New Card
       </Button>
 
-      {/* Add Card Modal */}
+      {/* Add/Edit Card Modal */}
       <Modal show={showAddModal} onHide={closeAddModal}>
         <Modal.Header closeButton>
           <Modal.Title>{editCard ? "Edit Card" : "Add New Card"}</Modal.Title>
@@ -125,6 +111,7 @@ const UserBusinessCards = () => {
         </Modal.Body>
       </Modal>
 
+      {/* Delete Card Modal */}
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>

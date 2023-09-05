@@ -13,26 +13,29 @@ import ProtectedRoute from "./components/shared/ProtectedRoute";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import UserBusinessCards from "./components/business-card/UserBusinessCards";
+import { BusinessCardsProvider } from "./contexts/BusinessCardsContext";
 
 const App = () => {
   return (
     <AuthProvider>
-      <Router>
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Navigate to="/business-cards" />} />{" "}
-            {/* Redirect root to business cards list */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/business-cards" element={<BusinessCardList />} />
-            <Route path="/user-business-cards" element={<ProtectedRoute />}>
-              <Route index element={<UserBusinessCards />} />
-            </Route>
-          </Routes>
-        </main>
-        <Footer />
-      </Router>
+      <BusinessCardsProvider>
+        <Router>
+          <Header />
+          <main>
+            <Routes>
+              <Route path="/" element={<Navigate to="/business-cards" />} />{" "}
+              {/* Redirect root to business cards list */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/business-cards" element={<BusinessCardList />} />
+              <Route path="/user-business-cards" element={<ProtectedRoute />}>
+                <Route index element={<UserBusinessCards />} />
+              </Route>
+            </Routes>
+          </main>
+          <Footer />
+        </Router>
+      </BusinessCardsProvider>
     </AuthProvider>
   );
 };
