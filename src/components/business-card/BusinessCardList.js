@@ -7,10 +7,10 @@ const BusinessCardList = () => {
   const { cards } = useContext(BusinessCardsContext);
 
   return (
-    <Container>
+    <Container className="mt-4">
       <Row>
         {cards.map((card) => (
-          <Col md={4} key={card.ItemID}>
+          <Col md={4} key={card.ItemID} className="mb-4">
             <BusinessCard card={card} />
           </Col>
         ))}

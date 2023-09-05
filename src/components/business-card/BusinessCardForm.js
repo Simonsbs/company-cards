@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 
 const defaultCardData = {
   name: "",
@@ -12,7 +12,7 @@ const defaultCardData = {
   address: "",
 };
 
-const BusinessCardForm = ({ initialData = {}, onSave }) => {
+const BusinessCardForm = ({ initialData = {}, onSave, onCancel }) => {
   const [cardData, setCardData] = useState({
     ...defaultCardData,
     ...initialData,
@@ -32,20 +32,32 @@ const BusinessCardForm = ({ initialData = {}, onSave }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      {Object.entries(defaultCardData).map(([key]) => (
-        <Form.Group className="mb-3" key={key}>
-          <Form.Label>{key.charAt(0).toUpperCase() + key.slice(1)}</Form.Label>
-          <Form.Control
-            type="text"
-            name={key}
-            value={cardData[key] || ""}
-            onChange={handleChange}
-          />
-        </Form.Group>
-      ))}
-      <Button variant="primary" type="submit">
-        Save
-      </Button>
+      <Row>
+        {Object.entries(defaultCardData).map(([key], index) => (
+          <Col md={index < 2 ? 12 : 6} key={key}>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                {key.charAt(0).toUpperCase() + key.slice(1)}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                name={key}
+                placeholder={`Enter ${key}`}
+                value={cardData[key] || ""}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+        ))}
+      </Row>
+      <div className="d-flex justify-content-end">
+        <Button variant="secondary" className="me-2" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button variant="primary" type="submit">
+          Save
+        </Button>
+      </div>
     </Form>
   );
 };

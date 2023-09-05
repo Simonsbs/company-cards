@@ -2,20 +2,25 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { BusinessCardsContext } from "../../contexts/BusinessCardsContext";
 import { deleteItem, postItem, updateItem } from "../../services/api";
-import { Container, Row, Col, Button, Modal } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal, Spinner } from "react-bootstrap";
 import BusinessCardForm from "./BusinessCardForm";
 import "./UserBusinessCards.css";
 import BusinessCard from "./BusinessCard";
+import { BusinessCardsCategory } from "../../constants/constants";
 
 const UserBusinessCards = () => {
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const { cards, addCard, updateCard, deleteCard } =
     useContext(BusinessCardsContext);
-  const itemCategory = "BusinessCards";
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
   const [editCard, setEditCard] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const userCards = cards.filter(
+    (card) => card.Data.createdBy === user.email || !card.Data.createdBy
+  );
 
   const openAddModal = () => {
     setEditCard(null);
@@ -37,9 +42,10 @@ const UserBusinessCards = () => {
   };
 
   const confirmDelete = async () => {
+    setIsLoading(true);
     if (cardToDelete) {
       try {
-        await deleteItem(token, itemCategory, cardToDelete.ItemID);
+        await deleteItem(token, BusinessCardsCategory, cardToDelete.ItemID);
         deleteCard(cardToDelete.ItemID);
         setShowDeleteModal(false);
         setCardToDelete(null);
@@ -47,9 +53,11 @@ const UserBusinessCards = () => {
         console.error("Error deleting card:", error);
       }
     }
+    setIsLoading(false);
   };
 
   const handleSave = async (cardData) => {
+    setIsLoading(true);
     try {
       if (editCard) {
         // Update existing card in the API and in the state
@@ -59,16 +67,20 @@ const UserBusinessCards = () => {
         };
         const response = await updateItem(
           token,
-          itemCategory,
+          BusinessCardsCategory,
           editCard.ItemID,
           updatedData
         );
         updateCard(response);
       } else {
-        // Add new card to the API and to the state
-        const response = await postItem(token, itemCategory, {
+        // Add new card to the API and to the state with createdBy field
+        const cardDataWithUser = {
+          ...cardData,
+          createdBy: user.email,
+        };
+        const response = await postItem(token, BusinessCardsCategory, {
           Scope: "Public",
-          Data: cardData,
+          Data: cardDataWithUser,
         });
         addCard(response);
       }
@@ -76,30 +88,48 @@ const UserBusinessCards = () => {
     } catch (error) {
       console.error("Error saving card:", error);
     }
+    setIsLoading(false);
   };
 
   return (
     <Container>
-      <Row>
-        {cards.map((card) => (
-          <Col
-            md={4}
-            key={card.ItemID}
-            style={{ height: "400px", marginBottom: "20px" }}
-          >
-            <BusinessCard
-              card={card}
-              onDelete={openDeleteModal}
-              onEdit={openEditModal}
-              editable={true}
-            />
+      <Row className="mb-4">
+        {userCards.length ? (
+          userCards.map((card) => (
+            <Col md={4} key={card.ItemID} className="mb-4">
+              <BusinessCard
+                card={card}
+                onDelete={openDeleteModal}
+                onEdit={openEditModal}
+                editable={true}
+              />
+            </Col>
+          ))
+        ) : (
+          <Col className="text-center">
+            <p>You haven't created any business cards yet.</p>
           </Col>
-        ))}
+        )}
       </Row>
 
-      <Button variant="success" onClick={openAddModal}>
-        Add New Card
-      </Button>
+      <div className="d-flex justify-content-center mb-4">
+        <Button variant="success" onClick={openAddModal} disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />{" "}
+              Processing...
+            </>
+          ) : (
+            "Add New Card"
+          )}
+        </Button>
+      </div>
 
       {/* Add/Edit Card Modal */}
       <Modal show={showAddModal} onHide={closeAddModal}>
@@ -107,7 +137,11 @@ const UserBusinessCards = () => {
           <Modal.Title>{editCard ? "Edit Card" : "Add New Card"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <BusinessCardForm initialData={editCard?.Data} onSave={handleSave} />
+          <BusinessCardForm
+            initialData={editCard?.Data}
+            onSave={handleSave}
+            onCancel={closeAddModal}
+          />
         </Modal.Body>
       </Modal>
 

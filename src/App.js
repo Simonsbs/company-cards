@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -23,11 +18,9 @@ const App = () => {
           <Header />
           <main>
             <Routes>
-              <Route path="/" element={<Navigate to="/business-cards" />} />{" "}
-              {/* Redirect root to business cards list */}
+              <Route path="/" element={<BusinessCardList />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/business-cards" element={<BusinessCardList />} />
               <Route path="/user-business-cards" element={<ProtectedRoute />}>
                 <Route index element={<UserBusinessCards />} />
               </Route>

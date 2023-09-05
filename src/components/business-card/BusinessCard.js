@@ -11,20 +11,23 @@ import {
 
 const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
   return (
-    <Card className="h-100 fixed-card">
+    <Card className="h-100 shadow-sm border-0 rounded">
       <Card.Body>
-        <Card.Title>{card.Data.name}</Card.Title>
+        <Card.Title className="font-weight-bold mb-3">
+          {card.Data.name}
+        </Card.Title>
+
         {card.Data.URL && (
-          <Card.Text>
-            <Globe className="mr-2" />
+          <Card.Text className="d-flex align-items-center mb-2">
+            <Globe className="me-2" size={20} />
             <a href={card.Data.URL} target="_blank" rel="noopener noreferrer">
               Website
             </a>
           </Card.Text>
         )}
         {card.Data.facebook && (
-          <Card.Text>
-            <Facebook className="mr-2" />
+          <Card.Text className="d-flex align-items-center mb-2">
+            <Facebook className="me-2" size={20} />
             <a
               href={card.Data.facebook}
               target="_blank"
@@ -35,8 +38,8 @@ const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
           </Card.Text>
         )}
         {card.Data.linkedin && (
-          <Card.Text>
-            <Linkedin className="mr-2" />
+          <Card.Text className="d-flex align-items-center mb-2">
+            <Linkedin className="me-2" size={20} />
             <a
               href={card.Data.linkedin}
               target="_blank"
@@ -47,37 +50,41 @@ const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
           </Card.Text>
         )}
         {card.Data.phone && (
-          <Card.Text>
-            <Telephone className="mr-2" />
+          <Card.Text className="d-flex align-items-center mb-2">
+            <Telephone className="me-2" size={20} />
             {card.Data.phone}
           </Card.Text>
         )}
         {card.Data.fax && (
-          <Card.Text>
-            <Telephone className="mr-2" />
+          <Card.Text className="d-flex align-items-center mb-2">
+            <Telephone className="me-2" size={20} />
             Fax: {card.Data.fax}
           </Card.Text>
         )}
         {card.Data.email && (
-          <Card.Text>
-            <Envelope className="mr-2" />
+          <Card.Text className="d-flex align-items-center mb-2">
+            <Envelope className="me-2" size={20} />
             {card.Data.email}
           </Card.Text>
         )}
         {card.Data.address && (
-          <Card.Text>
-            <GeoAlt className="mr-2" />
+          <Card.Text className="d-flex align-items-center">
+            <GeoAlt className="me-2" size={20} />
             {card.Data.address}
           </Card.Text>
         )}
       </Card.Body>
 
       {editable && (
-        <Card.Footer>
-          <Button variant="info" className="mr-2" onClick={() => onEdit(card)}>
+        <Card.Footer className="border-top-0 d-flex justify-content-between">
+          <Button variant="outline-info" size="sm" onClick={() => onEdit(card)}>
             Edit
           </Button>
-          <Button variant="danger" onClick={() => onDelete(card)}>
+          <Button
+            variant="outline-danger"
+            size="sm"
+            onClick={() => onDelete(card)}
+          >
             Delete
           </Button>
         </Card.Footer>
