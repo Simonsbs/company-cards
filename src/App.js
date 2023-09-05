@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import BusinessCardList from "./components/business-card/BusinessCardList";
+import ProtectedRoute from "./components/shared/ProtectedRoute";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import UserBusinessCards from "./components/business-card/UserBusinessCards";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <Router>
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<Navigate to="/business-cards" />} />{" "}
+            {/* Redirect root to business cards list */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/business-cards" element={<BusinessCardList />} />
+            <Route path="/user-business-cards" element={<ProtectedRoute />}>
+              <Route index element={<UserBusinessCards />} />
+            </Route>
+          </Routes>
+        </main>
+        <Footer />
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
