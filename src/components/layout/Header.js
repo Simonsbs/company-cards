@@ -60,12 +60,12 @@ const Header = () => {
   };
   return (
     <Navbar bg={theme} variant={theme} expand="lg" className="px-4 mb-3">
-      <Navbar.Brand as={Link} to="/">
+      <Navbar.Brand as={Link} to="/company-cards/">
         Business Cards App
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Form inline className="me-auto d-flex">
+        <Form className="me-auto d-flex">
           <FormControl
             type="text"
             placeholder="Search cards..."
@@ -130,7 +130,7 @@ const Header = () => {
             <>
               <Button
                 as={Link}
-                to="/login"
+                to="/company-cards/login"
                 variant="outline-primary"
                 className="mx-2"
               >
@@ -138,7 +138,7 @@ const Header = () => {
               </Button>
               <Button
                 as={Link}
-                to="/register"
+                to="/company-cards/register"
                 variant="primary"
                 className="mx-2"
               >

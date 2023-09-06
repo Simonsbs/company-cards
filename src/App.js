@@ -28,13 +28,16 @@ const App = () => {
       <Header />
       <main>
         <Routes>
-          <Route path="/" element={<BusinessCardList />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/user-business-cards" element={<ProtectedRoute />}>
+          <Route path="/company-cards/" element={<BusinessCardList />} />
+          <Route path="/company-cards/login" element={<Login />} />
+          <Route path="/company-cards/register" element={<Register />} />
+          <Route
+            path="/company-cards/user-business-cards"
+            element={<ProtectedRoute />}
+          >
             <Route index element={<UserBusinessCards />} />
           </Route>
-          <Route path="/profile" element={<ProtectedRoute />}>
+          <Route path="/company-cards/profile" element={<ProtectedRoute />}>
             <Route index element={<UserProfile />} />
           </Route>
         </Routes>
