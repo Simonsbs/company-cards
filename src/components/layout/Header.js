@@ -60,7 +60,7 @@ const Header = () => {
   };
   return (
     <Navbar bg={theme} variant={theme} expand="lg" className="px-4 mb-3">
-      <Navbar.Brand as={Link} to="/company-cards/">
+      <Navbar.Brand as={Link} to="/">
         Business Cards App
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -115,13 +115,10 @@ const Header = () => {
           )}
           {token ? (
             <NavDropdown title={user?.name || "Profile"} align="end">
-              <NavDropdown.Item as={Link} to="/company-cards/profile">
+              <NavDropdown.Item as={Link} to="/profile">
                 <PersonFill className="me-2" /> Profile
               </NavDropdown.Item>
-              <NavDropdown.Item
-                as={Link}
-                to="/company-cards/user-business-cards"
-              >
+              <NavDropdown.Item as={Link} to="/user-business-cards">
                 <CardList className="me-2" /> My Business Cards
               </NavDropdown.Item>
               <NavDropdown.Divider />
@@ -133,7 +130,7 @@ const Header = () => {
             <>
               <Button
                 as={Link}
-                to="/company-cards/login"
+                to="/login"
                 variant="outline-primary"
                 className="mx-2"
               >
@@ -141,7 +138,7 @@ const Header = () => {
               </Button>
               <Button
                 as={Link}
-                to="/company-cards/register"
+                to="/register"
                 variant="primary"
                 className="mx-2"
               >

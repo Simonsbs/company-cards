@@ -19,7 +19,7 @@ const Register = () => {
     }
     try {
       await registerUser(email, password, name);
-      navigate("/company-cards/login");
+      navigate("/login");
     } catch (error) {
       console.error("Registration Error:", error);
       setError("Failed to register. Please try again.");

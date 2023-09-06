@@ -16,7 +16,7 @@ const Login = () => {
     try {
       const response = await loginUser(email, password);
       setToken(response.token);
-      navigate("/company-cards/user-business-cards");
+      navigate("/user-business-cards");
     } catch (error) {
       console.error("Login Error:", error);
       setError("Failed to log in. Please check your credentials.");

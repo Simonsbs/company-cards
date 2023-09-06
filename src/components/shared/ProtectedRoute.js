@@ -8,7 +8,7 @@ const ProtectedRoute = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate("/company-cards/login");
+      navigate("/login");
     }
   }, [token, navigate]);
 
