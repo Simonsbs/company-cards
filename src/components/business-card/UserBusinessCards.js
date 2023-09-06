@@ -20,9 +20,7 @@ const UserBusinessCards = () => {
   const [editCard, setEditCard] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const userCards = cards.filter((card) =>
-    user ? card.Data.createdBy === user.email : !card.Data.createdBy
-  );
+  const userCards = cards.filter((card) => card.Data.createdBy === user.email);
 
   const openAddModal = () => {
     setEditCard(null);
