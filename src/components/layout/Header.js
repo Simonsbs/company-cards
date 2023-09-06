@@ -115,10 +115,13 @@ const Header = () => {
           )}
           {token ? (
             <NavDropdown title={user?.name || "Profile"} align="end">
-              <NavDropdown.Item as={Link} to="/profile">
+              <NavDropdown.Item as={Link} to="/company-cards/profile">
                 <PersonFill className="me-2" /> Profile
               </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/user-business-cards">
+              <NavDropdown.Item
+                as={Link}
+                to="/company-cards/user-business-cards"
+              >
                 <CardList className="me-2" /> My Business Cards
               </NavDropdown.Item>
               <NavDropdown.Divider />
