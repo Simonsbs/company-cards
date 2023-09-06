@@ -7,18 +7,25 @@ export const BusinessCardsContext = createContext();
 
 export const BusinessCardsProvider = ({ children }) => {
   const [cards, setCards] = useState([]);
+  const [filterValue, setFilterValue] = useState("");
   const { token } = useContext(AuthContext);
 
+  const filteredCards = cards.filter((card) =>
+    card.Data.name.toLowerCase().includes(filterValue.toLowerCase())
+  );
+
+  const fetchCards = async () => {
+    try {
+      const response = await getItems(token, BusinessCardsCategory);
+      setCards(response);
+    } catch (error) {
+      console.error("Error fetching cards:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const response = await getItems(token, BusinessCardsCategory);
-        setCards(response);
-      } catch (error) {
-        console.error("Error fetching cards:", error);
-      }
-    };
     fetchCards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const addCard = (card) => {
@@ -37,11 +44,30 @@ export const BusinessCardsProvider = ({ children }) => {
     setCards((prevCards) => prevCards.filter((card) => card.ItemID !== cardId));
   };
 
+  const resetFilter = () => {
+    setFilterValue("");
+  };
+
+  const reloadCards = () => {
+    fetchCards();
+  };
+
   return (
     <BusinessCardsContext.Provider
-      value={{ cards, addCard, updateCard, deleteCard, token }}
+      value={{
+        cards: filteredCards,
+        addCard,
+        updateCard,
+        deleteCard,
+        token,
+        setFilterValue,
+        resetFilter,
+        reloadCards,
+      }}
     >
       {children}
     </BusinessCardsContext.Provider>
   );
 };
+
+export default BusinessCardsProvider;
