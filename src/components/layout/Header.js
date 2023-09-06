@@ -24,7 +24,6 @@ import {
   PersonPlus,
   ArrowRepeat,
   XCircle,
-  Search,
 } from "react-bootstrap-icons";
 
 const Header = () => {
@@ -33,12 +32,6 @@ const Header = () => {
   const { setFilterValue, resetFilter, reloadCards } =
     useContext(BusinessCardsContext);
   const [searchValue, setSearchValue] = useState("");
-
-  const searchTooltip = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      Search for cards
-    </Tooltip>
-  );
 
   const reloadTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
