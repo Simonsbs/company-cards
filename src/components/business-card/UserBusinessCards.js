@@ -12,7 +12,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 const UserBusinessCards = () => {
   const { theme } = useContext(ThemeContext);
   const { token, user } = useContext(AuthContext);
-  const { cards, addCard, updateCard, deleteCard } =
+  const { cards, addCard, updateCard, deleteCard, loading } =
     useContext(BusinessCardsContext);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -94,6 +94,14 @@ const UserBusinessCards = () => {
   const bgClass = theme === "dark" ? "bg-dark" : "bg-light";
   const modalTextColorClass = theme === "dark" ? "text-light" : "text-dark";
   const modalBgClass = theme === "dark" ? "bg-dark" : "bg-light";
+
+  if (loading) {
+    return (
+      <Container className="d-flex justify-content-center mt-5">
+        <Spinner animation="border" />
+      </Container>
+    );
+  }
 
   return (
     <Container className={`${textColorClass} ${bgClass}`}>

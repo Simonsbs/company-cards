@@ -9,17 +9,21 @@ export const BusinessCardsProvider = ({ children }) => {
   const [cards, setCards] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const { token } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true); // <-- New loading state
 
   const filteredCards = cards.filter((card) =>
     card.Data.name.toLowerCase().includes(filterValue.toLowerCase())
   );
 
   const fetchCards = async () => {
+    setLoading(true);
     try {
       const response = await getItems(token, BusinessCardsCategory);
       setCards(response);
     } catch (error) {
       console.error("Error fetching cards:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,6 +67,7 @@ export const BusinessCardsProvider = ({ children }) => {
         setFilterValue,
         resetFilter,
         reloadCards,
+        loading,
       }}
     >
       {children}
