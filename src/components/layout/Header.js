@@ -59,7 +59,7 @@ const Header = () => {
     setToken(null);
   };
   return (
-    <Navbar bg={theme} variant={theme} expand="lg" className="px-4">
+    <Navbar bg={theme} variant={theme} expand="lg" className="px-4 mb-3">
       <Navbar.Brand as={Link} to="/">
         Business Cards App
       </Navbar.Brand>
