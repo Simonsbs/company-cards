@@ -7,8 +7,10 @@ import BusinessCardForm from "./BusinessCardForm";
 import "./UserBusinessCards.css";
 import BusinessCard from "./BusinessCard";
 import { BusinessCardsCategory } from "../../constants/constants";
+import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
 
 const UserBusinessCards = () => {
+  const { theme } = useContext(ThemeContext); // Access the theme value from the context
   const { token, user } = useContext(AuthContext);
   const { cards, addCard, updateCard, deleteCard } =
     useContext(BusinessCardsContext);
@@ -18,8 +20,8 @@ const UserBusinessCards = () => {
   const [editCard, setEditCard] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const userCards = cards.filter(
-    (card) => card.Data.createdBy === user.email || !card.Data.createdBy
+  const userCards = cards.filter((card) =>
+    user ? card.Data.createdBy === user.email : !card.Data.createdBy
   );
 
   const openAddModal = () => {
@@ -76,8 +78,9 @@ const UserBusinessCards = () => {
         // Add new card to the API and to the state with createdBy field
         const cardDataWithUser = {
           ...cardData,
-          createdBy: user.email,
+          createdBy: user ? user.email : null,
         };
+
         const response = await postItem(token, BusinessCardsCategory, {
           Scope: "Public",
           Data: cardDataWithUser,
@@ -91,8 +94,15 @@ const UserBusinessCards = () => {
     setIsLoading(false);
   };
 
+  const textColorClass = theme === "dark" ? "text-light" : "text-dark"; // Determine text color class based on theme
+  const bgClass = theme === "dark" ? "bg-dark" : "bg-light"; // Determine background color class based on theme
+  const modalTextColorClass = theme === "dark" ? "text-light" : "text-dark"; // Determine modal text color class based on theme
+  const modalBgClass = theme === "dark" ? "bg-dark" : "bg-light"; // Determine modal background color class based on theme
+
   return (
-    <Container>
+    <Container className={`${textColorClass} ${bgClass}`}>
+      {" "}
+      {/* Apply theme and text color classes */}
       <Row className="mb-4">
         {userCards.length ? (
           userCards.map((card) => (
@@ -111,7 +121,6 @@ const UserBusinessCards = () => {
           </Col>
         )}
       </Row>
-
       <div className="d-flex justify-content-center mb-4">
         <Button variant="success" onClick={openAddModal} disabled={isLoading}>
           {isLoading ? (
@@ -130,13 +139,18 @@ const UserBusinessCards = () => {
           )}
         </Button>
       </div>
-
       {/* Add/Edit Card Modal */}
-      <Modal show={showAddModal} onHide={closeAddModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>{editCard ? "Edit Card" : "Add New Card"}</Modal.Title>
+      <Modal
+        show={showAddModal}
+        onHide={closeAddModal}
+        dialogClassName={modalBgClass}
+      >
+        <Modal.Header closeButton className={modalBgClass}>
+          <Modal.Title className={modalTextColorClass}>
+            {editCard ? "Edit Card" : "Add New Card"}
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className={`${modalTextColorClass} ${modalBgClass}`}>
           <BusinessCardForm
             initialData={editCard?.Data}
             onSave={handleSave}
@@ -144,17 +158,22 @@ const UserBusinessCards = () => {
           />
         </Modal.Body>
       </Modal>
-
       {/* Delete Card Modal */}
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
+      <Modal
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        dialogClassName={modalBgClass}
+      >
+        <Modal.Header closeButton className={modalBgClass}>
+          <Modal.Title className={modalTextColorClass}>
+            Confirm Deletion
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className={`${modalTextColorClass} ${modalBgClass}`}>
           Are you sure you want to delete the card for{" "}
           <strong>{cardToDelete?.Data.name}</strong>?
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className={modalBgClass}>
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
             Cancel
           </Button>

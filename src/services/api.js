@@ -26,6 +26,26 @@ export const registerUser = async (email, password, name) => {
   return response.data;
 };
 
+// Register User
+export const updateUser = async (token, email, password, name) => {
+  const response = await api.put(
+    `/user/${ProjectID}`,
+    {
+      ProjectID: ProjectID,
+      Email: email,
+      Password: password,
+      Role: "Guest",
+      Name: name,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
 // Get single user
 export const getUser = async (email) => {
   const response = await api.get(`/user/object/${ProjectID}/${email}`);

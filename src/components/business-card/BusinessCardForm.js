@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react"; // Import useContext
 import { Form, Button, Row, Col } from "react-bootstrap";
+import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
 
 const defaultCardData = {
   name: "",
@@ -17,6 +18,10 @@ const BusinessCardForm = ({ initialData = {}, onSave, onCancel }) => {
     ...defaultCardData,
     ...initialData,
   });
+  const { theme } = useContext(ThemeContext); // Access the theme value from the context
+
+  const textColorClass = theme === "dark" ? "text-light" : "text-dark"; // Determine text color class based on theme
+  const bgClass = theme === "dark" ? "bg-dark" : "bg-light"; // Determine background color class based on theme
 
   const handleChange = (e) => {
     setCardData({
@@ -31,7 +36,9 @@ const BusinessCardForm = ({ initialData = {}, onSave, onCancel }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className={`${textColorClass} ${bgClass}`}>
+      {" "}
+      {/* Apply theme and text color classes */}
       <Row>
         {Object.entries(defaultCardData).map(([key], index) => (
           <Col md={index < 2 ? 12 : 6} key={key}>

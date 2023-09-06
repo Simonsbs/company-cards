@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container } from "react-bootstrap";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 const Footer = () => {
+  const { theme } = useContext(ThemeContext);
+
+  // Determine the footer theme based on the current theme state
+  const footerClass =
+    theme === "dark" ? "bg-dark text-white" : "bg-light text-dark";
+
   return (
-    <footer className="mt-5">
+    <footer className={`mt-5 ${footerClass}`}>
       <Container className="text-center">
         <p>
           &copy; {new Date().getFullYear()} Business Cards App. All Rights

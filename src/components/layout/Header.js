@@ -2,23 +2,42 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import Gravatar from "react-gravatar";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Form } from "react-bootstrap";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { Sun, Moon } from "react-bootstrap-icons";
 
 const Header = () => {
   const { token, setToken, user } = useContext(AuthContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const handleLogout = () => {
     setToken(null);
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="px-3">
+    <Navbar bg={theme} variant={theme} expand="lg" className="px-3">
       <Navbar.Brand as={Link} to="/">
         Business Cards App
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="align-items-center">
         <Nav className="ms-auto align-items-center">
+          <Form className="me-3">
+            <Form.Check
+              type="switch"
+              id="theme-switch"
+              label={
+                theme === "dark" ? (
+                  <Moon className="ms-1" />
+                ) : (
+                  <Sun className="ms-1" />
+                )
+              }
+              onChange={toggleTheme}
+              checked={theme === "dark"}
+            />
+          </Form>
+
           {token && user?.email && (
             <Gravatar
               email={user.email}
