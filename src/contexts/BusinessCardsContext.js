@@ -9,7 +9,7 @@ export const BusinessCardsProvider = ({ children }) => {
   const [cards, setCards] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const { token } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true); // <-- New loading state
+  const [loading, setLoading] = useState(true);
 
   const filteredCards = cards.filter((card) =>
     card.Data.name.toLowerCase().includes(filterValue.toLowerCase())

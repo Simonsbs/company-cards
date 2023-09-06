@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { BusinessCardsContext } from "../../contexts/BusinessCardsContext";
 import { deleteItem, postItem, updateItem } from "../../services/api";
@@ -19,8 +19,15 @@ const UserBusinessCards = () => {
   const [cardToDelete, setCardToDelete] = useState(null);
   const [editCard, setEditCard] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [userCards, setUserCards] = useState(cards);
 
-  const userCards = cards.filter((card) => card.Data.createdBy === user.email);
+  useEffect(() => {
+    if (user && cards) {
+      setUserCards(cards.filter((card) => card.Data.createdBy === user.email));
+    } else {
+      setUserCards([]);
+    }
+  }, [user, cards]);
 
   const openAddModal = () => {
     setEditCard(null);
