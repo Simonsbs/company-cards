@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { BusinessCardsContext } from "../../contexts/BusinessCardsContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Container, Row, Col } from "react-bootstrap";
@@ -8,7 +8,6 @@ const BusinessCardList = () => {
   const { cards } = useContext(BusinessCardsContext);
   const { theme } = useContext(ThemeContext);
 
-  // Determine the theme class based on the current theme state
   const themeClass =
     theme === "dark" ? "bg-dark text-white" : "bg-light text-dark";
 

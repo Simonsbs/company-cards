@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import { Card, Button } from "react-bootstrap";
 import {
   Globe,
@@ -8,19 +7,10 @@ import {
   Envelope,
   GeoAlt,
 } from "react-bootstrap-icons";
-import { ThemeContext } from "../../contexts/ThemeContext"; // Import the ThemeContext
 
 const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
-  const { theme } = useContext(ThemeContext); // Access the theme value from the context
-
-  const textColorClass = theme === "dark" ? "text-light" : "text-dark"; // Determine text color class based on theme
-
   return (
-    <Card
-      className={`h-100 shadow-sm border-0 rounded bg-${theme} ${textColorClass}`}
-    >
-      {" "}
-      {/* Add theme and text color classes to the Card */}
+    <Card className={`h-100 shadow-sm border-0 rounded `}>
       <Card.Body>
         <Card.Title className="font-weight-bold mb-3">
           {card.Data.name}

@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Container } from "react-bootstrap";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
 const Footer = () => {
   const { theme } = useContext(ThemeContext);
 
-  // Determine the footer theme based on the current theme state
   const footerClass =
     theme === "dark" ? "bg-dark text-white" : "bg-light text-dark";
 

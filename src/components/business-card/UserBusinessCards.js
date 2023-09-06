@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { BusinessCardsContext } from "../../contexts/BusinessCardsContext";
 import { deleteItem, postItem, updateItem } from "../../services/api";
@@ -7,10 +7,10 @@ import BusinessCardForm from "./BusinessCardForm";
 import "./UserBusinessCards.css";
 import BusinessCard from "./BusinessCard";
 import { BusinessCardsCategory } from "../../constants/constants";
-import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 const UserBusinessCards = () => {
-  const { theme } = useContext(ThemeContext); // Access the theme value from the context
+  const { theme } = useContext(ThemeContext);
   const { token, user } = useContext(AuthContext);
   const { cards, addCard, updateCard, deleteCard } =
     useContext(BusinessCardsContext);
@@ -62,7 +62,6 @@ const UserBusinessCards = () => {
     setIsLoading(true);
     try {
       if (editCard) {
-        // Update existing card in the API and in the state
         const updatedData = {
           ...editCard,
           Data: cardData,
@@ -75,7 +74,6 @@ const UserBusinessCards = () => {
         );
         updateCard(response);
       } else {
-        // Add new card to the API and to the state with createdBy field
         const cardDataWithUser = {
           ...cardData,
           createdBy: user ? user.email : null,
@@ -94,15 +92,13 @@ const UserBusinessCards = () => {
     setIsLoading(false);
   };
 
-  const textColorClass = theme === "dark" ? "text-light" : "text-dark"; // Determine text color class based on theme
-  const bgClass = theme === "dark" ? "bg-dark" : "bg-light"; // Determine background color class based on theme
-  const modalTextColorClass = theme === "dark" ? "text-light" : "text-dark"; // Determine modal text color class based on theme
-  const modalBgClass = theme === "dark" ? "bg-dark" : "bg-light"; // Determine modal background color class based on theme
+  const textColorClass = theme === "dark" ? "text-light" : "text-dark";
+  const bgClass = theme === "dark" ? "bg-dark" : "bg-light";
+  const modalTextColorClass = theme === "dark" ? "text-light" : "text-dark";
+  const modalBgClass = theme === "dark" ? "bg-dark" : "bg-light";
 
   return (
     <Container className={`${textColorClass} ${bgClass}`}>
-      {" "}
-      {/* Apply theme and text color classes */}
       <Row className="mb-4">
         {userCards.length ? (
           userCards.map((card) => (
@@ -139,6 +135,7 @@ const UserBusinessCards = () => {
           )}
         </Button>
       </div>
+
       {/* Add/Edit Card Modal */}
       <Modal
         show={showAddModal}
@@ -158,6 +155,7 @@ const UserBusinessCards = () => {
           />
         </Modal.Body>
       </Modal>
+
       {/* Delete Card Modal */}
       <Modal
         show={showDeleteModal}

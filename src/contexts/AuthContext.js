@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import jwtDecode from "jwt-decode";
 import { ProjectID } from "../constants/constants";
 
@@ -16,11 +16,10 @@ export const AuthProvider = ({ children }) => {
         const decoded = jwtDecode(token);
         setDecodedToken(decoded);
 
-        // Verify if the decoded token has the correct ProjectID.
         if (decoded.ProjectID !== ProjectID) {
           console.warn("Invalid ProjectID in token. Logging out.");
           setToken(null);
-          return; // Exit the useEffect to prevent further execution.
+          return;
         }
 
         setUser({
