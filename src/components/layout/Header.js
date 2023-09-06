@@ -2,9 +2,17 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import Gravatar from "react-gravatar";
-import { Navbar, Nav, NavDropdown, Form } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Form, Button } from "react-bootstrap";
 import { ThemeContext } from "../../contexts/ThemeContext";
-import { Sun, Moon } from "react-bootstrap-icons";
+import {
+  Sun,
+  Moon,
+  PersonFill,
+  CardList,
+  BoxArrowRight,
+  DoorOpen,
+  PersonPlus,
+} from "react-bootstrap-icons";
 
 const Header = () => {
   const { token, setToken, user } = useContext(AuthContext);
@@ -48,22 +56,34 @@ const Header = () => {
           {token ? (
             <NavDropdown title={user?.name || "Profile"} align="end">
               <NavDropdown.Item as={Link} to="/profile">
-                Profile
+                <PersonFill className="me-2" /> Profile
               </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/user-business-cards">
-                My Business Cards
+                <CardList className="me-2" /> My Business Cards
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleLogout}>
+                <BoxArrowRight className="me-2" /> Logout
+              </NavDropdown.Item>
             </NavDropdown>
           ) : (
             <>
-              <Nav.Link as={Link} to="/login" className="mx-2">
-                Login
-              </Nav.Link>
-              <Nav.Link as={Link} to="/register" className="mx-2">
-                Register
-              </Nav.Link>
+              <Button
+                as={Link}
+                to="/login"
+                variant="outline-primary"
+                className="mx-2"
+              >
+                <DoorOpen className="me-2" /> Login
+              </Button>
+              <Button
+                as={Link}
+                to="/register"
+                variant="primary"
+                className="mx-2"
+              >
+                <PersonPlus className="me-2" /> Register
+              </Button>
             </>
           )}
         </Nav>

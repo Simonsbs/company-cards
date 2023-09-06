@@ -10,6 +10,7 @@ const UserProfile = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [verifyPassword, setVerifyPassword] = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -30,6 +31,11 @@ const UserProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password !== verifyPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
 
     try {
       const updatedUser = await updateUser(token, user.email, password, name);
@@ -53,7 +59,7 @@ const UserProfile = () => {
 
   return (
     <Container className="mt-5">
-      <Card>
+      <Card className="shadow-sm">
         <Card.Body>
           <Card.Title className="mb-4">User Profile</Card.Title>
           {error && <Alert variant="danger">{error}</Alert>}
@@ -66,7 +72,7 @@ const UserProfile = () => {
               <Form.Control type="text" readOnly value={user.email} />
             </Form.Group>
 
-            <Form.Group>
+            <Form.Group className="mt-3">
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
@@ -76,7 +82,7 @@ const UserProfile = () => {
               />
             </Form.Group>
 
-            <Form.Group>
+            <Form.Group className="mt-3">
               <Form.Label>Change Password</Form.Label>
               <Form.Control
                 type="password"
@@ -86,7 +92,17 @@ const UserProfile = () => {
               />
             </Form.Group>
 
-            <div className="d-flex justify-content-end mt-3">
+            <Form.Group className="mt-3">
+              <Form.Label>Verify New Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={verifyPassword}
+                onChange={(e) => setVerifyPassword(e.target.value)}
+                placeholder="Re-enter new password"
+              />
+            </Form.Group>
+
+            <div className="d-flex justify-content-end mt-4">
               <Button variant="primary" type="submit">
                 Update Profile
               </Button>
