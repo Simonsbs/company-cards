@@ -4,7 +4,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { getUser, updateUser } from "../../services/api";
 
 const UserProfile = () => {
-  const { user, token, setToken } = useContext(AuthContext);
+  const { user, token, setUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [name, setName] = useState("");
@@ -27,7 +27,7 @@ const UserProfile = () => {
     if (user && user.email) {
       fetchUser();
     }
-  }, [user]);
+  }, [user, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,8 +39,13 @@ const UserProfile = () => {
 
     try {
       const updatedUser = await updateUser(token, user.email, password, name);
-      if (updatedUser && updatedUser.token) {
-        setToken(updatedUser.token);
+      if (updatedUser && updatedUser.data) {
+        setUser({
+          email: updatedUser.data.Email,
+          name: updatedUser.data.Name,
+          role: updatedUser.data.Role,
+          projectID: updatedUser.data.ProjectID,
+        });
         setUpdateSuccess(true);
       } else {
         setError("Error updating user details.");
