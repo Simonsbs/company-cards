@@ -15,7 +15,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await getUser(user.email);
+        const data = await getUser(token, user.email);
         setName(data.Name);
       } catch (e) {
         setError("Error fetching user details.");
@@ -40,7 +40,7 @@ const UserProfile = () => {
     try {
       const updatedUser = await updateUser(token, user.email, password, name);
       if (updatedUser && updatedUser.token) {
-        setToken(updatedUser.token); // Update the token after successfully updating user details.
+        setToken(updatedUser.token);
         setUpdateSuccess(true);
       } else {
         setError("Error updating user details.");

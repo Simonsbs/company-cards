@@ -58,9 +58,13 @@ export const updateUser = (token, email, password, name) => {
     });
 };
 
-export const getUser = (email) => {
+export const getUser = (token, email) => {
   return api
-    .get(`/user/object/${ProjectID}/${email}`)
+    .get(`/user/object/${ProjectID}/${email}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error getting user:", error);
