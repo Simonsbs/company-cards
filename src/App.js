@@ -11,6 +11,7 @@ import UserBusinessCards from "./components/business-card/UserBusinessCards";
 import { BusinessCardsProvider } from "./contexts/BusinessCardsContext";
 import { ThemeContext, ThemeProvider } from "./contexts/ThemeContext";
 import UserProfile from "./components/auth/UserProfile";
+import UserManagement from "./components/users/UserManagement";
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
@@ -36,6 +37,9 @@ const App = () => {
           </Route>
           <Route path="/profile" element={<ProtectedRoute />}>
             <Route index element={<UserProfile />} />
+          </Route>
+          <Route path="/users" element={<ProtectedRoute />}>
+            <Route index element={<UserManagement />} />
           </Route>
         </Routes>
       </main>

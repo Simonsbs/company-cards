@@ -18,13 +18,13 @@ export const loginUser = (email, password) => {
     });
 };
 
-export const registerUser = (email, password, name) => {
+export const registerUser = (email, password, name, role = "Guest") => {
   return api
     .post("/user/", {
       ProjectID: ProjectID,
       Email: email,
       Password: password,
-      Role: "Guest",
+      Role: role,
       Name: name,
     })
     .then((response) => response.data)
@@ -34,7 +34,7 @@ export const registerUser = (email, password, name) => {
     });
 };
 
-export const updateUser = (token, email, password, name) => {
+export const updateUser = (token, email, password, name, role = "Guest") => {
   return api
     .put(
       `/user/${ProjectID}/${email}`,
@@ -42,7 +42,7 @@ export const updateUser = (token, email, password, name) => {
         ProjectID: ProjectID,
         Email: email,
         Password: password,
-        Role: "Guest",
+        Role: role,
         Name: name,
       },
       {
@@ -61,6 +61,34 @@ export const updateUser = (token, email, password, name) => {
 export const getUser = (token, email) => {
   return api
     .get(`/user/object/${ProjectID}/${email}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error getting user:", error);
+      throw error;
+    });
+};
+
+export const getUsers = (token) => {
+  return api
+    .get(`/user/${ProjectID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error getting user:", error);
+      throw error;
+    });
+};
+
+export const deleteUser = (token, email) => {
+  return api
+    .delete(`/user/${ProjectID}/${email}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

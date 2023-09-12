@@ -121,6 +121,13 @@ const Header = () => {
               <NavDropdown.Item as={Link} to="/user-business-cards">
                 <CardList className="me-2" /> My Business Cards
               </NavDropdown.Item>
+              {user?.role === "Admin" ? (
+                <NavDropdown.Item as={Link} to="/users">
+                  <CardList className="me-2" /> User Management
+                </NavDropdown.Item>
+              ) : (
+                <></>
+              )}
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={handleLogout}>
                 <BoxArrowRight className="me-2" /> Logout
