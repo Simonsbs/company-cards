@@ -55,12 +55,13 @@ const UserProfile = () => {
     }
   };
 
-  if (loading)
+  if (loading || !user) {
     return (
       <Container className="d-flex justify-content-center mt-5">
         <Spinner animation="border" />
       </Container>
     );
+  }
 
   return (
     <Container className="mt-5">

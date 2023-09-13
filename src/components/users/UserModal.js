@@ -21,12 +21,16 @@ const UserModal = ({ show, onHide, user, reloadUsers }) => {
     setEmail(user?.Email || "");
     setName(user?.Name || "");
     setPassword("");
-    if (["Admin", "Guest"].includes(user?.Role)) {
-      setRole(user?.Role || "Guest");
-      setCustomRole("");
+    if (user) {
+      if (["Admin", "Guest"].includes(user?.Role)) {
+        setRole(user?.Role || "Guest");
+        setCustomRole("");
+      } else {
+        setRole("Other");
+        setCustomRole(user?.Role || "");
+      }
     } else {
-      setRole("Other");
-      setCustomRole(user?.Role || "");
+      setRole("Guest");
     }
   }, [user]);
 

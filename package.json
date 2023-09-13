@@ -4,9 +4,9 @@
   "private": true,
   "homepage": "https://bestdev.co.il/company-cards/",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/jest-dom": "^6.1.3",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "axios": "^1.5.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
@@ -16,7 +16,7 @@
     "react-gravatar": "^2.6.3",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^3.4.0"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -45,7 +45,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0",
+    "gh-pages": "^6.0.0",
     "node-sass": "^9.0.0"
   }
 }

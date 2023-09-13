@@ -2,15 +2,17 @@ import { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
-const ProtectedRoute = () => {
-  const { token } = useContext(AuthContext);
+const ProtectedRoute = ({ requiresAdmin = false }) => {
+  const { token, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!token) {
       navigate("/login");
+    } else if (requiresAdmin && user?.role !== "Admin") {
+      navigate("/user-business-cards");
     }
-  }, [token, navigate]);
+  }, [token, user, navigate, requiresAdmin]);
 
   return <Outlet />;
 };

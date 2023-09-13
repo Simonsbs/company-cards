@@ -38,7 +38,10 @@ const App = () => {
           <Route path="/profile" element={<ProtectedRoute />}>
             <Route index element={<UserProfile />} />
           </Route>
-          <Route path="/users" element={<ProtectedRoute />}>
+          <Route
+            path="/users"
+            element={<ProtectedRoute requiresAdmin={true} />}
+          >
             <Route index element={<UserManagement />} />
           </Route>
         </Routes>

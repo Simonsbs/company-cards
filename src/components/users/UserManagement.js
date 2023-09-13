@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Button, Container, Spinner, Table } from "react-bootstrap";
 import { TrashFill, PencilFill } from "react-bootstrap-icons";
 import { AuthContext } from "../../contexts/AuthContext";
 import { deleteUser, getUsers } from "../../services/api";
@@ -12,6 +12,7 @@ const UserManagement = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const { token } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadUsers();
@@ -19,12 +20,14 @@ const UserManagement = () => {
   }, []);
 
   const loadUsers = async () => {
+    setLoading(true);
     try {
       const usersList = await getUsers(token);
       setUsers(usersList);
     } catch (error) {
       console.error("Failed to load users:", error);
     }
+    setLoading(false);
   };
 
   const handleDelete = async (email) => {
@@ -41,8 +44,16 @@ const UserManagement = () => {
     setShowModal(true);
   };
 
+  if (loading) {
+    return (
+      <Container className="d-flex justify-content-center mt-5">
+        <Spinner animation="border" />
+      </Container>
+    );
+  }
+
   return (
-    <div className="container">
+    <Container>
       <div style={{ marginBottom: "20px" }}>
         <Button size="lg" onClick={() => setShowModal(true)}>
           <PencilFill /> Add User
@@ -91,7 +102,7 @@ const UserManagement = () => {
         user={selectedUser}
         reloadUsers={loadUsers}
       />
-    </div>
+    </Container>
   );
 };
 

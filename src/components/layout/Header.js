@@ -24,6 +24,7 @@ import {
   PersonPlus,
   ArrowRepeat,
   XCircle,
+  PeopleFill,
 } from "react-bootstrap-icons";
 
 const Header = () => {
@@ -108,7 +109,7 @@ const Header = () => {
 
           {token && user?.email && (
             <Gravatar
-              email={user.email}
+              email={user?.email}
               className="mr-2 rounded-circle"
               size={30}
             />
@@ -123,7 +124,7 @@ const Header = () => {
               </NavDropdown.Item>
               {user?.role === "Admin" ? (
                 <NavDropdown.Item as={Link} to="/users">
-                  <CardList className="me-2" /> User Management
+                  <PeopleFill className="me-2" /> User Management
                 </NavDropdown.Item>
               ) : (
                 <></>
