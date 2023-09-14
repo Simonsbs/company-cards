@@ -55,7 +55,13 @@ const UserManagement = () => {
   return (
     <Container>
       <div style={{ marginBottom: "20px" }}>
-        <Button size="lg" onClick={() => setShowModal(true)}>
+        <Button
+          size="lg"
+          onClick={() => {
+            setSelectedUser(null);
+            setShowModal(true);
+          }}
+        >
           <PencilFill /> Add User
         </Button>
       </div>

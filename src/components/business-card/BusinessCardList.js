@@ -4,6 +4,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import { Container, Row, Col } from "react-bootstrap";
 import BusinessCard from "./BusinessCard";
 import { Spinner } from "react-bootstrap";
+import SearchFilterForm from "./SearchFilterForm";
 
 const BusinessCardList = () => {
   const { cards, loading } = useContext(BusinessCardsContext);
@@ -22,6 +23,7 @@ const BusinessCardList = () => {
 
   return (
     <Container className={`mt-4 ${themeClass}`}>
+      <SearchFilterForm />
       <Row>
         {cards.map((card) => (
           <Col md={4} key={card.ItemID} className="mb-4">

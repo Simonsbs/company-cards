@@ -4,10 +4,10 @@ import { BusinessCardsContext } from "../../contexts/BusinessCardsContext";
 import { deleteItem, postItem, updateItem } from "../../services/api";
 import { Container, Row, Col, Button, Modal, Spinner } from "react-bootstrap";
 import BusinessCardForm from "./BusinessCardForm";
-import "./UserBusinessCards.css";
 import BusinessCard from "./BusinessCard";
 import { BusinessCardsCategory } from "../../constants/constants";
 import { ThemeContext } from "../../contexts/ThemeContext";
+import SearchFilterForm from "./SearchFilterForm";
 
 const UserBusinessCards = () => {
   const { theme } = useContext(ThemeContext);
@@ -112,6 +112,7 @@ const UserBusinessCards = () => {
 
   return (
     <Container className={`${textColorClass} ${bgClass}`}>
+      <SearchFilterForm />
       <Row className="mb-4">
         {userCards.length ? (
           userCards.map((card) => (

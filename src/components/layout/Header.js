@@ -1,18 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import { BusinessCardsContext } from "../../contexts/BusinessCardsContext";
 import Gravatar from "react-gravatar";
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
-  Button,
-  FormControl,
-  Tooltip,
-  OverlayTrigger,
-} from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Form, Button } from "react-bootstrap";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import {
   Sun,
@@ -22,39 +12,12 @@ import {
   BoxArrowRight,
   DoorOpen,
   PersonPlus,
-  ArrowRepeat,
-  XCircle,
   PeopleFill,
 } from "react-bootstrap-icons";
 
 const Header = () => {
   const { token, setToken, user } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { setFilterValue, resetFilter, reloadCards } =
-    useContext(BusinessCardsContext);
-  const [searchValue, setSearchValue] = useState("");
-
-  const reloadTooltip = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      Reload cards
-    </Tooltip>
-  );
-
-  const clearTooltip = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      Clear search
-    </Tooltip>
-  );
-
-  const handleSearchChange = (e) => {
-    setSearchValue(e.target.value);
-    setFilterValue(e.target.value);
-  };
-
-  const handleResetFilter = () => {
-    setSearchValue("");
-    resetFilter();
-  };
 
   const handleLogout = () => {
     setToken(null);
@@ -66,31 +29,7 @@ const Header = () => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Form className="me-auto d-flex">
-          <FormControl
-            type="text"
-            placeholder="Search cards..."
-            value={searchValue}
-            onChange={handleSearchChange}
-            className="me-2"
-          />
-          <OverlayTrigger placement="bottom" overlay={clearTooltip}>
-            <Button variant="outline-secondary" onClick={handleResetFilter}>
-              <XCircle />
-            </Button>
-          </OverlayTrigger>
-          <OverlayTrigger placement="bottom" overlay={reloadTooltip}>
-            <Button
-              className="ms-2"
-              variant="outline-secondary"
-              onClick={reloadCards}
-            >
-              <ArrowRepeat />
-            </Button>
-          </OverlayTrigger>
-        </Form>
-
-        <Nav className="ml-auto align-items-center">
+        <Nav className="ms-auto align-items-center">
           <Form className="me-3">
             <Form.Check
               type="switch"
