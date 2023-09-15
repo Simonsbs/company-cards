@@ -20,7 +20,7 @@ const SearchFilterForm = () => {
   const [searchValue, setSearchValue] = useState("");
   const { favoriteFilter, setFavoriteFilter, ownerFilter, setOwnerFilter } =
     useContext(BusinessCardsContext);
-  const { user, token } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
@@ -66,45 +66,63 @@ const SearchFilterForm = () => {
         </Col>
 
         <Col xs={12} md={3} className="mb-3 mb-md-0">
-          <DropdownButton
-            variant="outline-secondary"
-            title={
-              <>
-                <Filter className="me-1" />
-                Favorites: {favoriteFilter}
-              </>
-            }
-            className="w-100"
-            id="dropdown-favorites"
-            onSelect={(e) => setFavoriteFilter(e)}
-          >
-            <Dropdown.Item eventKey="all">All</Dropdown.Item>
-            <Dropdown.Item eventKey="selected">Selected</Dropdown.Item>
-            <Dropdown.Item eventKey="unselected">Unselected</Dropdown.Item>
-          </DropdownButton>
+          <Dropdown className="w-100">
+            <Dropdown.Toggle variant="outline-secondary" className="w-100">
+              <Filter className="me-1" />
+              Favorites: {favoriteFilter}
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="w-100">
+              <Dropdown.Item
+                eventKey="all"
+                onSelect={() => setFavoriteFilter("all")}
+              >
+                All
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey="selected"
+                onSelect={() => setFavoriteFilter("selected")}
+              >
+                Selected
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey="unselected"
+                onSelect={() => setFavoriteFilter("unselected")}
+              >
+                Unselected
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Col>
 
-        {user ? (
+        {user && (
           <Col xs={12} md={3}>
-            <DropdownButton
-              variant="outline-secondary"
-              title={
-                <>
-                  <Filter className="me-1" />
-                  Cards: {ownerFilter}
-                </>
-              }
-              className="w-100"
-              id="dropdown-ownership"
-              onSelect={(e) => setOwnerFilter(e)}
-            >
-              <Dropdown.Item eventKey="all">All</Dropdown.Item>
-              <Dropdown.Item eventKey="mine">Only Mine</Dropdown.Item>
-              <Dropdown.Item eventKey="others">Only Others</Dropdown.Item>
-            </DropdownButton>
+            <Dropdown className="w-100">
+              <Dropdown.Toggle variant="outline-secondary" className="w-100">
+                <Filter className="me-1" />
+                Cards: {ownerFilter}
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="w-100">
+                <Dropdown.Item
+                  eventKey="all"
+                  onSelect={() => setOwnerFilter("all")}
+                >
+                  All
+                </Dropdown.Item>
+                <Dropdown.Item
+                  eventKey="mine"
+                  onSelect={() => setOwnerFilter("mine")}
+                >
+                  Only Mine
+                </Dropdown.Item>
+                <Dropdown.Item
+                  eventKey="others"
+                  onSelect={() => setOwnerFilter("others")}
+                >
+                  Only Others
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Col>
-        ) : (
-          <></>
         )}
       </Row>
     </div>
