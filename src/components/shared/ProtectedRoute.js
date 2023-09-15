@@ -9,7 +9,7 @@ const ProtectedRoute = ({ requiresAdmin = false }) => {
   useEffect(() => {
     if (!token) {
       navigate("/login");
-    } else if (requiresAdmin && user?.role !== "Admin") {
+    } else if (requiresAdmin && user?.Role !== "Admin") {
       navigate("/user-business-cards");
     }
   }, [token, user, navigate, requiresAdmin]);
