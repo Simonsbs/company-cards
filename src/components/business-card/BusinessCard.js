@@ -70,7 +70,11 @@ const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
         style={{ cursor: "pointer" }}
         onClick={toggleFavorite}
       >
-        {favorite ? <HeartFill color="red" size={24} /> : <Heart size={24} />}
+        <HeartFill
+          style={{ stroke: "black", strokeWidth: 2 }}
+          color={favorite ? "red" : "transparent"}
+          viewBox="-1 -1 20 20"
+        />
       </div>
       <Card.Body>
         <Card.Title className="font-weight-bold mb-3">
