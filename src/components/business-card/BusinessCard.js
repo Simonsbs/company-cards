@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import {
   Globe,
   Facebook,
@@ -8,7 +8,6 @@ import {
   Envelope,
   GeoAlt,
   HeartFill,
-  Heart,
 } from "react-bootstrap-icons";
 import { AuthContext } from "../../contexts/AuthContext";
 import { updateUser } from "../../services/api";
@@ -27,7 +26,6 @@ const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
   }, [user, card]);
 
   const toggleFavorite = async () => {
-    // Toggle the local favorite state
     const isFavorite = !favorite;
     setFavorite(isFavorite);
 
@@ -35,7 +33,6 @@ const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
       user.Favorites = [];
     }
 
-    // Modify the user's favorites
     if (isFavorite) {
       user.Favorites.push(card.ItemID);
     } else {
@@ -45,10 +42,7 @@ const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
       }
     }
 
-    // Update the user in the API
     try {
-      //console.log(user);
-
       await updateUser(
         token,
         user.Email,
@@ -70,11 +64,20 @@ const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
         style={{ cursor: "pointer" }}
         onClick={toggleFavorite}
       >
-        <HeartFill
-          style={{ stroke: "black", strokeWidth: 2 }}
-          color={favorite ? "red" : "transparent"}
-          viewBox="-1 -1 20 20"
-        />
+        <OverlayTrigger
+          placement="bottom"
+          overlay={
+            <Tooltip id="tooltip-clear">
+              {favorite ? "Remove from my favorites" : "Add to my favorites"}
+            </Tooltip>
+          }
+        >
+          <HeartFill
+            style={{ stroke: "black", strokeWidth: 2 }}
+            color={favorite ? "red" : "transparent"}
+            viewBox="-1 -1 20 20"
+          />
+        </OverlayTrigger>
       </div>
       <Card.Body>
         <Card.Title className="font-weight-bold mb-3">
