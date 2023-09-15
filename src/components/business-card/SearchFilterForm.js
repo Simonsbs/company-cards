@@ -6,13 +6,21 @@ import {
   Button,
   OverlayTrigger,
   Tooltip,
+  Dropdown,
+  DropdownButton,
+  Row,
+  Col,
 } from "react-bootstrap";
-import { XCircle, ArrowRepeat, Search } from "react-bootstrap-icons";
+import { XCircle, ArrowRepeat, Search, Filter } from "react-bootstrap-icons";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const SearchFilterForm = () => {
   const { setFilterValue, resetFilter, reloadCards } =
     useContext(BusinessCardsContext);
   const [searchValue, setSearchValue] = useState("");
+  const { favoriteFilter, setFavoriteFilter, ownerFilter, setOwnerFilter } =
+    useContext(BusinessCardsContext);
+  const { user, token } = useContext(AuthContext);
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
@@ -25,34 +33,80 @@ const SearchFilterForm = () => {
   };
 
   return (
-    <div className="search-filter-form">
-      <InputGroup className="mb-3">
-        <InputGroup.Text>
-          <Search />
-        </InputGroup.Text>
-        <FormControl
-          type="text"
-          placeholder="Search cards..."
-          value={searchValue}
-          onChange={handleSearchChange}
-        />
-        <OverlayTrigger
-          placement="bottom"
-          overlay={<Tooltip id="tooltip-clear">Clear search</Tooltip>}
-        >
-          <Button variant="outline-secondary" onClick={handleResetFilter}>
-            <XCircle />
-          </Button>
-        </OverlayTrigger>
-        <OverlayTrigger
-          placement="bottom"
-          overlay={<Tooltip id="tooltip-reload">Reload cards</Tooltip>}
-        >
-          <Button variant="outline-secondary" onClick={reloadCards}>
-            <ArrowRepeat />
-          </Button>
-        </OverlayTrigger>
-      </InputGroup>
+    <div className="search-filter-form mb-3">
+      <Row noGutters>
+        <Col xs={12} md={6} className="mb-3 mb-md-0">
+          <InputGroup className="w-100">
+            <InputGroup.Text>
+              <Search />
+            </InputGroup.Text>
+            <FormControl
+              type="text"
+              placeholder="Search cards..."
+              value={searchValue}
+              onChange={handleSearchChange}
+            />
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="tooltip-clear">Clear search</Tooltip>}
+            >
+              <Button variant="outline-secondary" onClick={handleResetFilter}>
+                <XCircle />
+              </Button>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="tooltip-reload">Reload cards</Tooltip>}
+            >
+              <Button variant="outline-secondary" onClick={reloadCards}>
+                <ArrowRepeat />
+              </Button>
+            </OverlayTrigger>
+          </InputGroup>
+        </Col>
+
+        <Col xs={12} md={3} className="mb-3 mb-md-0">
+          <DropdownButton
+            variant="outline-secondary"
+            title={
+              <>
+                <Filter className="me-1" />
+                Favorites: {favoriteFilter}
+              </>
+            }
+            className="w-100"
+            id="dropdown-favorites"
+            onSelect={(e) => setFavoriteFilter(e)}
+          >
+            <Dropdown.Item eventKey="all">All</Dropdown.Item>
+            <Dropdown.Item eventKey="selected">Selected</Dropdown.Item>
+            <Dropdown.Item eventKey="unselected">Unselected</Dropdown.Item>
+          </DropdownButton>
+        </Col>
+
+        {user ? (
+          <Col xs={12} md={3}>
+            <DropdownButton
+              variant="outline-secondary"
+              title={
+                <>
+                  <Filter className="me-1" />
+                  Cards: {ownerFilter}
+                </>
+              }
+              className="w-100"
+              id="dropdown-ownership"
+              onSelect={(e) => setOwnerFilter(e)}
+            >
+              <Dropdown.Item eventKey="all">All</Dropdown.Item>
+              <Dropdown.Item eventKey="mine">Only Mine</Dropdown.Item>
+              <Dropdown.Item eventKey="others">Only Others</Dropdown.Item>
+            </DropdownButton>
+          </Col>
+        ) : (
+          <></>
+        )}
+      </Row>
     </div>
   );
 };

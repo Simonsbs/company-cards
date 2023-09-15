@@ -8,12 +8,33 @@ export const BusinessCardsContext = createContext();
 export const BusinessCardsProvider = ({ children }) => {
   const [cards, setCards] = useState([]);
   const [filterValue, setFilterValue] = useState("");
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [favoriteFilter, setFavoriteFilter] = useState("all");
+  const [ownerFilter, setOwnerFilter] = useState("all");
 
-  const filteredCards = cards.filter((card) =>
-    card.Data.name.toLowerCase().includes(filterValue.toLowerCase())
-  );
+  const filteredCards = cards.filter((card) => {
+    // Existing filter logic
+    let nameMatch = card.Data.name
+      .toLowerCase()
+      .includes(filterValue.toLowerCase());
+
+    // Favorites filter
+    let favoriteMatch = true;
+    if (favoriteFilter === "selected" && !user.Favorites.includes(card.ItemID))
+      favoriteMatch = false;
+    if (favoriteFilter === "unselected" && user.Favorites.includes(card.ItemID))
+      favoriteMatch = false;
+
+    // Ownership filter (assuming card.OwnerID as an example property)
+    let ownerMatch = true;
+    if (ownerFilter === "mine" && card.Data.createdBy !== user.Email)
+      ownerMatch = false;
+    if (ownerFilter === "others" && card.Data.createdBy === user.Email)
+      ownerMatch = false;
+
+    return nameMatch && favoriteMatch && ownerMatch;
+  });
 
   const fetchCards = async () => {
     setLoading(true);
@@ -68,6 +89,10 @@ export const BusinessCardsProvider = ({ children }) => {
         resetFilter,
         reloadCards,
         loading,
+        favoriteFilter,
+        setFavoriteFilter,
+        ownerFilter,
+        setOwnerFilter,
       }}
     >
       {children}
