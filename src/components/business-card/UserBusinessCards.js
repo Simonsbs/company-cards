@@ -23,7 +23,7 @@ const UserBusinessCards = () => {
 
   useEffect(() => {
     if (user && cards) {
-      setUserCards(cards.filter((card) => card.Data.createdBy === user.email));
+      setUserCards(cards.filter((card) => card.Data.createdBy === user.Email));
     } else {
       setUserCards([]);
     }

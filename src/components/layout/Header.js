@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import Gravatar from "react-gravatar";
@@ -18,10 +18,20 @@ import {
 const Header = () => {
   const { token, setToken, user } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const [name, setName] = useState("Profile");
 
   const handleLogout = () => {
     setToken(null);
   };
+
+  useEffect(() => {
+    if (user) {
+      setName(user.Name);
+    } else {
+      setName("Profile");
+    }
+  }, [user]);
+
   return (
     <Navbar bg={theme} variant={theme} expand="lg" className="px-4 mb-3">
       <Navbar.Brand as={Link} to="/">
@@ -46,22 +56,22 @@ const Header = () => {
             />
           </Form>
 
-          {token && user?.email && (
+          {token && user?.Email && (
             <Gravatar
-              email={user?.email}
+              email={user?.Email}
               className="mr-2 rounded-circle"
               size={30}
             />
           )}
           {token ? (
-            <NavDropdown title={user?.name || "Profile"} align="end">
+            <NavDropdown title={name} align="end">
               <NavDropdown.Item as={Link} to="/profile">
                 <PersonFill className="me-2" /> Profile
               </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/user-business-cards">
                 <CardList className="me-2" /> My Business Cards
               </NavDropdown.Item>
-              {user?.role === "Admin" ? (
+              {user?.Role === "Admin" ? (
                 <NavDropdown.Item as={Link} to="/users">
                   <PeopleFill className="me-2" /> User Management
                 </NavDropdown.Item>

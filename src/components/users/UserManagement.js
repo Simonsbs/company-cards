@@ -89,7 +89,7 @@ const UserManagement = () => {
               <td width={112}>
                 <Button
                   variant="danger"
-                  onClick={() => handleDelete(user.email)}
+                  onClick={() => handleDelete(user.Email)}
                   style={{ marginRight: "10px" }}
                 >
                   <TrashFill />

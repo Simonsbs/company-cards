@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import {
   Globe,
@@ -6,11 +7,71 @@ import {
   Telephone,
   Envelope,
   GeoAlt,
+  HeartFill,
+  Heart,
 } from "react-bootstrap-icons";
+import { AuthContext } from "../../contexts/AuthContext";
+import { updateUser } from "../../services/api";
 
 const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
+  const [favorite, setFavorite] = useState();
+  const { user, token } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!user || !card) {
+      setFavorite(false);
+    } else {
+      //console.log(user);
+      setFavorite(user.Favorites.includes(card.ItemID));
+    }
+  }, [user, card]);
+
+  const toggleFavorite = async () => {
+    // Toggle the local favorite state
+    const isFavorite = !favorite;
+    setFavorite(isFavorite);
+
+    if (!user.Favorites) {
+      user.Favorites = [];
+    }
+
+    // Modify the user's favorites
+    if (isFavorite) {
+      user.Favorites.push(card.ItemID);
+    } else {
+      const index = user.Favorites.indexOf(card.ItemID);
+      if (index > -1) {
+        user.Favorites.splice(index, 1);
+      }
+    }
+
+    // Update the user in the API
+    try {
+      //console.log(user);
+
+      await updateUser(
+        token,
+        user.Email,
+        null,
+        user.Name,
+        user.Role,
+        user.Favorites
+      );
+    } catch (error) {
+      console.error("Error updating favorite status:", error);
+      setFavorite(!isFavorite);
+    }
+  };
+
   return (
-    <Card className={`h-100 shadow-sm border-0 rounded `}>
+    <Card className={`h-100 shadow-sm border-0 rounded position-relative`}>
+      <div
+        className="position-absolute top-0 end-0 mt-2 me-2"
+        style={{ cursor: "pointer" }}
+        onClick={toggleFavorite}
+      >
+        {favorite ? <HeartFill color="red" size={24} /> : <Heart size={24} />}
+      </div>
       <Card.Body>
         <Card.Title className="font-weight-bold mb-3">
           {card.Data.name}

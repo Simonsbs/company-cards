@@ -15,7 +15,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await getUser(token, user.email);
+        const data = await getUser(token, user.Email);
         setName(data.Name);
       } catch (e) {
         setError("Error fetching user details.");
@@ -24,7 +24,7 @@ const UserProfile = () => {
       }
     };
 
-    if (user && user.email) {
+    if (user && user.Email) {
       fetchUser();
     }
   }, [user, token]);
@@ -38,14 +38,16 @@ const UserProfile = () => {
     }
 
     try {
-      const updatedUser = await updateUser(token, user.email, password, name);
+      const updatedUser = await updateUser(
+        token,
+        user.Email,
+        password,
+        name,
+        user.Role,
+        user.Favorites
+      );
       if (updatedUser && updatedUser.data) {
-        setUser({
-          email: updatedUser.data.Email,
-          name: updatedUser.data.Name,
-          role: updatedUser.data.Role,
-          projectID: updatedUser.data.ProjectID,
-        });
+        setUser(updatedUser);
         setUpdateSuccess(true);
       } else {
         setError("Error updating user details.");
@@ -75,7 +77,7 @@ const UserProfile = () => {
           <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>Email</Form.Label>
-              <Form.Control type="text" readOnly value={user.email} />
+              <Form.Control type="text" readOnly value={user.Email} />
             </Form.Group>
 
             <Form.Group className="mt-3">

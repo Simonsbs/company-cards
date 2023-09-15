@@ -34,7 +34,7 @@ export const registerUser = (email, password, name, role = "Guest") => {
     });
 };
 
-export const updateUser = (token, email, password, name, role = "Guest") => {
+export const updateUser = (token, email, password, name, role, favorites) => {
   return api
     .put(
       `/user/${ProjectID}/${email}`,
@@ -44,6 +44,7 @@ export const updateUser = (token, email, password, name, role = "Guest") => {
         Password: password,
         Role: role,
         Name: name,
+        Favorites: favorites,
       },
       {
         headers: {
