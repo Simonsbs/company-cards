@@ -59,26 +59,28 @@ const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
 
   return (
     <Card className={`h-100 shadow-sm border-0 rounded position-relative`}>
-      <div
-        className="position-absolute top-0 end-0 mt-2 me-2"
-        style={{ cursor: "pointer" }}
-        onClick={toggleFavorite}
-      >
-        <OverlayTrigger
-          placement="bottom"
-          overlay={
-            <Tooltip id="tooltip-clear">
-              {favorite ? "Remove from my favorites" : "Add to my favorites"}
-            </Tooltip>
-          }
+      {user ?? (
+        <div
+          className="position-absolute top-0 end-0 mt-2 me-2"
+          style={{ cursor: "pointer" }}
+          onClick={toggleFavorite}
         >
-          <HeartFill
-            style={{ stroke: "black", strokeWidth: 2 }}
-            color={favorite ? "red" : "transparent"}
-            viewBox="-1 -1 20 20"
-          />
-        </OverlayTrigger>
-      </div>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={
+              <Tooltip id="tooltip-clear">
+                {favorite ? "Remove from my favorites" : "Add to my favorites"}
+              </Tooltip>
+            }
+          >
+            <HeartFill
+              style={{ stroke: "black", strokeWidth: 2 }}
+              color={favorite ? "red" : "transparent"}
+              viewBox="-1 -1 20 20"
+            />
+          </OverlayTrigger>
+        </div>
+      )}
       <Card.Body>
         <Card.Title className="font-weight-bold mb-3">
           {card.Data.name}
