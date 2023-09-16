@@ -33,7 +33,7 @@ const SearchFilterForm = () => {
 
   return (
     <div className="search-filter-form mb-3">
-      <Row noGutters>
+      <Row>
         <Col xs={12} md={6} className="mb-3 mb-md-0">
           <InputGroup className="w-100">
             <InputGroup.Text>
