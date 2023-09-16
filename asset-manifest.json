@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/company-cards/static/css/main.105671bd.css",
-    "main.js": "/company-cards/static/js/main.fbeb39c2.js",
+    "main.js": "/company-cards/static/js/main.da16c924.js",
     "static/js/496.85035720.chunk.js": "/company-cards/static/js/496.85035720.chunk.js",
     "index.html": "/company-cards/index.html",
     "main.105671bd.css.map": "/company-cards/static/css/main.105671bd.css.map",
-    "main.fbeb39c2.js.map": "/company-cards/static/js/main.fbeb39c2.js.map",
+    "main.da16c924.js.map": "/company-cards/static/js/main.da16c924.js.map",
     "496.85035720.chunk.js.map": "/company-cards/static/js/496.85035720.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.105671bd.css",
-    "static/js/main.fbeb39c2.js"
+    "static/js/main.da16c924.js"
   ]
 }
