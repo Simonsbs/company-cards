@@ -59,7 +59,7 @@ const BusinessCard = ({ card, onDelete, onEdit, editable = false }) => {
 
   return (
     <Card className={`h-100 shadow-sm border-0 rounded position-relative`}>
-      {user ?? (
+      {user && (
         <div
           className="position-absolute top-0 end-0 mt-2 me-2"
           style={{ cursor: "pointer" }}
