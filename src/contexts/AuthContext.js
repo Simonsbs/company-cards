@@ -1,8 +1,8 @@
 import { createContext, useState, useEffect } from "react";
-import jwtDecode from "jwt-decode";
+
 import { ProjectID } from "../constants/constants";
 import { getUser } from "../services/api";
-
+import { jwtDecode } from "jwt-decode";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
