@@ -89,7 +89,7 @@ export const getUsers = (token) => {
 
 export const deleteUser = (token, email) => {
   return api
-    .delete(`/user/${ProjectID}/${email}`, {
+    .delete(`/user/object/${ProjectID}/${email}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
